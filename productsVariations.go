@@ -1,222 +1,188 @@
 package woocommerce
 
-// import (
-//   "net/http"
-// )
+import (
+	"net/http"
+)
 
-// // Product service
-// type ProductsService service
+type ProductVariantsService service
 
-// // Product object. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#product-properties
-// type Product struct {
-//   Id                     int                  `json:"id,omitempty"`
-//   DateCreated            string               `json:"date_created,omitempty"`
-//   DateCreatedGmt         string               `json:"date_created_gmt,omitempty"`
-//   DateModified           string               `json:"date_modified,omitempty"`
-//   DateModifiedGmt        string               `json:"date_modified_gmt,omitempty"`
-//   Description            string               `json:"description,omitempty"`
-//   Permalink              string               `json:"permalink,omitempty"`
-//   Sku                    string               `json:"sku,omitempty"`
-//   Price                  string               `json:"price,omitempty"`
-//   RegularPrice           string               `json:"regular_price,omitempty"`
-//   SalePrice              string               `json:"sale_price,omitempty"`
-//   DateOnSaleFrom         string               `json:"date_on_sale_from,omitempty"`
-//   DateOnSaleFromGmt      string               `json:"date_on_sale_from_gmt,omitempty"`
-//   DateOnSaleTo           string               `json:"date_on_sale_to,omitempty"`
-//   DateOnSaleToGmt        string               `json:"date_on_sale_to_gmt,omitempty"`
-//   OnSale                 bool                 `json:"on_sale,omitempty"`
-//   Status                 string               `json:"status,omitempty"`
-//   Purchasable            bool                 `json:"purchasable,omitempty"`
-//   Virtual                bool                 `json:"virtual,omitempty"`
-//   Downloadable           bool                 `json:"downloadable,omitempty"`
-//   DownloadLimit          int                  `json:"download_limit,omitempty"`
-//   DownloadExpiry         int                  `json:"download_expiry,omitempty"`
-//   TaxStatus              string               `json:"tax_status,omitempty"`
-//   TaxClass               string               `json:"tax_class,omitempty"`
-//   ManageStock            bool                 `json:"manage_stock,omitempty"`
-//   StockQuantity          int                  `json:"stock_quantity,omitempty"`
-//   StockStatus            string               `json:"stock_status,omitempty"`
-//   Backorders             string               `json:"backorders,omitempty"`
-//   BackordersAllowed      bool                 `json:"backorders_allowed,omitempty"`
-//   Backordered            bool                 `json:"backordered,omitempty"`
-//   Weight                 string               `json:"weight,omitempty"`
-//   ShippingClass          string               `json:"shipping_class,omitempty"`
-//   ShippingClassId        string               `json:"shipping_class_id,omitempty"`
-//   MenuOrder              int                  `json:"menu_order,omitempty"`
-//   Image                  *Image               `json:"image,omitempty"`
-//   Dimensions             *ProductDimensions   `json:"dimensions,omitempty"`
-//   Downloads              *[]ProductDownloads  `json:"downloads,omitempty"`
-//   Attributes             *[]ProductAttributes `json:"attributes,omitempty"`
-//   MetaData               *[]MetaData          `json:"meta_data,omitempty"`
-// }
+// ProductVariation object. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#product-properties
+type ProductVariation struct {
+	Id                int                  `json:"id,omitempty"`
+	DateCreated       string               `json:"date_created,omitempty"`
+	DateCreatedGmt    string               `json:"date_created_gmt,omitempty"`
+	DateModified      string               `json:"date_modified,omitempty"`
+	DateModifiedGmt   string               `json:"date_modified_gmt,omitempty"`
+	Description       string               `json:"description,omitempty"`
+	Permalink         string               `json:"permalink,omitempty"`
+	Sku               string               `json:"sku,omitempty"`
+	Price             string               `json:"price,omitempty"`
+	RegularPrice      string               `json:"regular_price,omitempty"`
+	SalePrice         string               `json:"sale_price,omitempty"`
+	DateOnSaleFrom    string               `json:"date_on_sale_from,omitempty"`
+	DateOnSaleFromGmt string               `json:"date_on_sale_from_gmt,omitempty"`
+	DateOnSaleTo      string               `json:"date_on_sale_to,omitempty"`
+	DateOnSaleToGmt   string               `json:"date_on_sale_to_gmt,omitempty"`
+	OnSale            bool                 `json:"on_sale,omitempty"`
+	Status            string               `json:"status,omitempty"`
+	Purchasable       bool                 `json:"purchasable,omitempty"`
+	Virtual           bool                 `json:"virtual,omitempty"`
+	Downloadable      bool                 `json:"downloadable,omitempty"`
+	DownloadLimit     int                  `json:"download_limit,omitempty"`
+	DownloadExpiry    int                  `json:"download_expiry,omitempty"`
+	TaxStatus         string               `json:"tax_status,omitempty"`
+	TaxClass          string               `json:"tax_class,omitempty"`
+	ManageStock       bool                 `json:"manage_stock,omitempty"`
+	StockQuantity     int                  `json:"stock_quantity,omitempty"`
+	StockStatus       string               `json:"stock_status,omitempty"`
+	Backorders        string               `json:"backorders,omitempty"`
+	BackordersAllowed bool                 `json:"backorders_allowed,omitempty"`
+	Backordered       bool                 `json:"backordered,omitempty"`
+	Weight            string               `json:"weight,omitempty"`
+	ShippingClass     string               `json:"shipping_class,omitempty"`
+	ShippingClassId   string               `json:"shipping_class_id,omitempty"`
+	MenuOrder         int                  `json:"menu_order,omitempty"`
+	Image             *Image               `json:"image,omitempty"`
+	Dimensions        *ProductDimensions   `json:"dimensions,omitempty"`
+	Downloads         *[]ProductDownloads  `json:"downloads,omitempty"`
+	Attributes        *[]ProductAttributes `json:"attributes,omitempty"`
+	MetaData          *[]MetaData          `json:"meta_data,omitempty"`
+}
 
-// type ProductDownloads struct {
-//   Id    string  `json:"id,omitempty"`
-//   Name  string  `json:"name,omitempty"`
-//   File  string  `json:"file,omitempty"`
-// }
+type DeleteProductVariantParams struct {
+	Force    string `json:"force,omitempty"`
+	Reassign int    `json:"reassign,omitempty"`
+}
 
-// type ProductDimensions struct {
-//   Length  string      `json:"length,omitempty"`
-//   Width   string      `json:"width,omitempty"`
-//   Height  string      `json:"height,omitempty"`
-// }
+type BatchProductVariantUpdate struct {
+	Create *[]Product `json:"create,omitempty"`
+	Update *[]Product `json:"update,omitempty"`
+	Delete *[]int     `json:"delete,omitempty"`
+}
 
-// type Image struct {
-//   Id                 interface{} `json:"id,omitempty"`
-//   DateCreated        string      `json:"date_created,omitempty"`
-//   DateCreatedGmt     string      `json:"date_created_gmt,omitempty"`
-//   DateModified       string      `json:"date_modified,omitempty"`
-//   DateModifiedGmt    string      `json:"date_modified_gmt,omitempty"`
-//   Source             string      `json:"src,omitempty"`
-//   Name               string      `json:"name,omitempty"`
-//   Alt                string      `json:"alt,omitempty"`
-// }
+type BatchProductVariantUpdateResponse struct {
+	Create *[]Product `json:"create,omitempty"`
+	Update *[]Product `json:"update,omitempty"`
+	Delete *[]Product `json:"delete,omitempty"`
+}
 
-// type ProductAttributes struct {
-//   Id      int         `json:"id,omitempty"`
-//   Name    string      `json:"name,omitempty"`
-//   Option  string      `json:"option,omitempty"`
-// }
+type ProductDownload struct {
+	DownloadId         string `json:"download_id,omitempty"`
+	DownloadUrl        string `json:"download_url,omitempty"`
+	ProductId          int    `json:"product_id,omitempty"`
+	ProductName        string `json:"product_name,omitempty"`
+	DownloadName       string `json:"download_name,omitempty"`
+	OrderId            int    `json:"order_id,omitempty"`
+	OrderKey           string `json:"order_key,omitempty"`
+	DownloadsRemaining string `json:"downloads_remaining,omitempty"`
+	AccessExpires      string `json:"access_expires,omitempty"`
+	AccessExpiresGmt   string `json:"access_expires_gmt,omitempty"`
+	File               *File  `json:"file,omitempty"`
+	Links              *Links `json:"_links,omitempty"`
+}
 
-// type ListProductParams struct {
-//   Context   string    `url:"context,omitempty"`
-//   Page      int       `url:"page,omitempty"`
-//   PerPage   int       `url:"per_page,omitempty"`
-//   Search    string    `url:"search,omitempty"`
-//   Exclude   *[]int    `url:"exclude,omitempty"`
-//   Include   *[]int    `url:"include,omitempty"`
-//   Offset    int       `url:"offset,omitempty"`
-//   Order     string    `url:"order,omitempty"`
-//   OrderBy   string    `url:"orderby,omitempty"`
+// Create a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#create-a-product
+func (service *ProductVariantsService) Create(product *Product) (*Product, *http.Response, error) {
+	_url := "/products"
+	req, _ := service.client.NewRequest("POST", _url, nil, product)
 
-//   Email     string    `url:"email,omitempty"`
-//   Role      string    `url:"role,omitempty"`
-// }
+	createdProduct := new(Product)
+	response, err := service.client.Do(req, createdProduct)
 
-// type DeleteProductParams struct {
-//   Force     string  `json:"force,omitempty"`
-//   Reassign  int     `json:"reassign,omitempty"`
-// }
+	if err != nil {
+		return nil, response, err
+	}
 
-// type BatchProductUpdate struct {
-//   Create  *[]Product `json:"create,omitempty"`
-//   Update  *[]Product `json:"update,omitempty"`
-//   Delete  *[]int      `json:"delete,omitempty"`
-// }
+	return createdProduct, response, nil
+}
 
-// type BatchProductUpdateResponse struct {
-//   Create  *[]Product `json:"create,omitempty"`
-//   Update  *[]Product `json:"update,omitempty"`
-//   Delete  *[]Product `json:"delete,omitempty"`
-// }
+// Get a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#retrieve-a-product
+func (service *ProductVariantsService) Get(productID string, variationID string) (*ProductVariation, *http.Response, error) {
+	_url := "/products/" + productID + "/variations/" + variationID
+	req, _ := service.client.NewRequest("GET", _url, nil, nil)
 
-// type ProductDownload struct {
-//   DownloadId           string  `json:"download_id,omitempty"`
-//   DownloadUrl          string  `json:"download_url,omitempty"`
-//   ProductId            int     `json:"product_id,omitempty"`
-//   ProductName          string  `json:"product_name,omitempty"`
-//   DownloadName         string  `json:"download_name,omitempty"`
-//   OrderId              int     `json:"order_id,omitempty"`
-//   OrderKey             string  `json:"order_key,omitempty"`
-//   DownloadsRemaining   string  `json:"downloads_remaining,omitempty"`
-//   AccessExpires        string  `json:"access_expires,omitempty"`
-//   AccessExpiresGmt     string  `json:"access_expires_gmt,omitempty"`
-//   File                 *File   `json:"file,omitempty"`
-//   Links                *Links  `json:"_links,omitempty"`
-// }
+	variation := new(ProductVariation)
+	response, err := service.client.Do(req, variation)
 
-// type File struct  {
-//   Name  string  `json:"name,omitempty"`
-//   File  string  `json:"file,omitempty"`
-// }
+	if err != nil {
+		return nil, response, err
+	}
 
-// // Create a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#create-a-product
-// func (service *ProductsService) Create(product *Product) (*Product, *http.Response, error) {
-//   _url := "/products" 
-//   req, _ := service.client.NewRequest("POST", _url, nil, product)
+	return variation, response, nil
+}
 
-//   createdProduct := new(Product)
-//   response, err := service.client.Do(req, createdProduct)
+// Get a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#retrieve-a-product
+func (service *ProductVariantsService) GetAll(productID string) ([]ProductVariation, *http.Response, error) {
+	_url := "/products/" + productID + "/variations"
+	req, _ := service.client.NewRequest("GET", _url, nil, nil)
 
-//   if err != nil {
-//     return nil, response, err
-//   }
+	var variations []ProductVariation
+	//variations := new(Product)
+	response, err := service.client.Do(req, variations)
 
-//   return createdProduct, response, nil
-// }
+	if err != nil {
+		return nil, response, err
+	}
 
-// // Get a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#retrieve-a-product
-// func (service *ProductsService) Get(productID string) (*Product, *http.Response, error) {
-//   _url := "/products/" + productID
-//   req, _ := service.client.NewRequest("GET", _url, nil, nil)
+	return variations, response, nil
+}
 
-//   product := new(Product)
-//   response, err := service.client.Do(req, product)
+// List products. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#list-all-products
+func (service *ProductVariantsService) List(opts *ListProductParams) (*[]ProductVariation, *http.Response, error) {
+	_url := "/products"
+	req, _ := service.client.NewRequest("GET", _url, opts, nil)
 
-//   if err != nil {
-//     return nil, response, err
-//   }
+	products := new([]ProductVariation)
+	response, err := service.client.Do(req, products)
 
-//   return product, response, nil
-// }
+	if err != nil {
+		return nil, response, err
+	}
 
-// // List products. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#list-all-products
-// func (service *ProductsService) List(opts *ListProductParams) (*[]Product, *http.Response, error) {
-//   _url := "/products"
-//   req, _ := service.client.NewRequest("GET", _url, opts, nil)
+	return products, response, nil
+}
 
-//   products := new([]Product)
-//   response, err := service.client.Do(req, products)
+// Update a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#update-a-product
+func (service *ProductVariantsService) Update(productID string, product *Product) (*ProductVariation, *http.Response, error) {
+	_url := "/products/" + productID
+	req, _ := service.client.NewRequest("PUT", _url, nil, product)
 
-//   if err != nil {
-//     return nil, response, err
-//   }
+	updatedVariant := new(ProductVariation)
+	response, err := service.client.Do(req, updatedVariant)
 
-//   return products, response, nil
-// }
+	if err != nil {
+		return nil, response, err
+	}
 
-// // Update a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#update-a-product
-// func (service *ProductsService) Update(productID string, product *Product) (*Product, *http.Response, error) {
-//   _url := "/products/" + productID
-//   req, _ := service.client.NewRequest("PUT", _url, nil, product)
+	return updatedVariant, response, nil
+}
 
-//   updatedProduct := new(Product)
-//   response, err := service.client.Do(req, updatedProduct)
+// Delete a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#delete-a-product
+func (service *ProductVariantsService) Delete(productID string, opts *DeleteProductParams) (*ProductVariation, *http.Response, error) {
+	_url := "/products/" + productID
+	req, _ := service.client.NewRequest("DELETE", _url, opts, nil)
 
-//   if err != nil {
-//     return nil, response, err
-//   }
+	product := new(ProductVariation)
+	response, err := service.client.Do(req, product)
 
-//   return updatedProduct, response, nil
-// }
+	if err != nil {
+		return nil, response, err
+	}
 
-// // Delete a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#delete-a-product
-// func (service *ProductsService) Delete(productID string, opts *DeleteProductParams) (*Product, *http.Response, error) {
-//   _url := "/products/" + productID
-//   req, _ := service.client.NewRequest("DELETE", _url, opts, nil)
+	return product, response, nil
+}
 
-//   product := new(Product)
-//   response, err := service.client.Do(req, product)
+// Batch update products. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#batch-update-products
+func (service *ProductVariantsService) Batch(opts *BatchProductUpdate) (*BatchProductVariantUpdateResponse, *http.Response, error) {
+	_url := "/products/batch"
+	req, _ := service.client.NewRequest("POST", _url, nil, opts)
 
-//   if err != nil {
-//     return nil, response, err
-//   }
+	products := new(BatchProductVariantUpdateResponse)
+	response, err := service.client.Do(req, products)
 
-//   return product, response, nil
-// }
+	if err != nil {
+		return nil, response, err
+	}
 
-// // Batch update products. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#batch-update-products
-// func (service *ProductsService) Batch(opts *BatchProductUpdate) (*BatchProductUpdateResponse, *http.Response, error) {
-//   _url := "/products/batch"
-//   req, _ := service.client.NewRequest("POST", _url, nil, opts)
-
-//   products := new(BatchProductUpdateResponse)
-//   response, err := service.client.Do(req, products)
-
-//   if err != nil {
-//     return nil, response, err
-//   }
-
-//   return products, response, nil
-// }
+	return products, response, nil
+}
