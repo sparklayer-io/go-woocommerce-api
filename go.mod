@@ -1,4 +1,4 @@
-module github.com/sparklayer-io/go-woocommrce-api
+module github.com/sparklayer-io/go-woocommerce-api
 
 go 1.23
 
