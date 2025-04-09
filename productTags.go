@@ -79,7 +79,7 @@ func (service *ProductTagService) List() ([]ProductTag, *http.Response, error) {
 	response, err := service.client.Do(req, productTags)
 
 	if err != nil {
-		return nil, response, err
+		return productTags, response, err
 	}
 
 	return productTags, response, nil
