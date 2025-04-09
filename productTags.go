@@ -69,8 +69,8 @@ func (service *ProductTagService) Get(productTagID string) (*ProductTag, *http.R
 }
 
 // List all product tags. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#list-all-product-tags
-func (service *ProductTagService) List(opts *ListProductParams) (*[]ProductTag, *http.Response, error) {
-	req, err := service.client.NewRequest("GET", "/products/tags", opts, nil)
+func (service *ProductTagService) List() (*[]ProductTag, *http.Response, error) {
+	req, err := service.client.NewRequest("GET", "/products/tags", nil, nil)
 	if err != nil {
 		return nil, nil, err
 	}
