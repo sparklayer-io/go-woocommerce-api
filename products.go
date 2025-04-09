@@ -202,11 +202,11 @@ func (service *ProductsService) Get(productID string) (*Product, *http.Response,
 }
 
 // List products. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#list-all-products
-func (service *ProductsService) List(opts *ListProductParams) (*[]Product, *http.Response, error) {
+func (service *ProductsService) List(opts *ListProductParams) ([]Product, *http.Response, error) {
 	_url := "/products"
 	req, _ := service.client.NewRequest("GET", _url, opts, nil)
 
-	products := new([]Product)
+	var products []Product
 	response, err := service.client.Do(req, products)
 
 	if err != nil {
