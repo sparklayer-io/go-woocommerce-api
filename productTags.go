@@ -76,7 +76,7 @@ func (service *ProductTagService) List() ([]ProductTag, *http.Response, error) {
 	}
 
 	var productTags []ProductTag
-	response, err := service.client.Do(req, productTags)
+	response, err := service.client.Do(req, &productTags)
 
 	if err != nil {
 		return productTags, response, err

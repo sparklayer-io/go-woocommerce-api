@@ -207,7 +207,7 @@ func (service *ProductsService) List(opts *ListProductParams) ([]Product, *http.
 	req, _ := service.client.NewRequest("GET", _url, opts, nil)
 
 	var products []Product
-	response, err := service.client.Do(req, products)
+	response, err := service.client.Do(req, &products)
 
 	if err != nil {
 		return products, response, err
