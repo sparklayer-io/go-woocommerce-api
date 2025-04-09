@@ -109,7 +109,7 @@ func New(shopURL string) (*Client, error) {
 	return client, nil
 }
 
-// Authenticate saves authenitcation parameters for user
+// Authenticate saves authentication parameters for user
 func (client *Client) Authenticate(consumer_key string, consumer_secret string) {
 	client.auth.HeaderName = defaultHeaderName
 
@@ -170,7 +170,7 @@ func (client *Client) Do(req *http.Request, v interface{}) (*http.Response, erro
 	attempts := 0
 
 	for attempts < clientRequestRetryAttempts {
-		// Hold before this attempt? (ie. not first attempt)
+		// Hold before this attempt? (i.e. not first attempt)
 		if attempts > 0 {
 			time.Sleep(clientRequestRetryHoldMillis * time.Millisecond)
 		}
