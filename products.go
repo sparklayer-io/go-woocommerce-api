@@ -67,7 +67,7 @@ type Product struct {
 	RelatedIds        *[]int               `json:"related_ids,omitempty"`
 	CrossSellIds      *[]int               `json:"cross_sell_ids,omitempty"`
 	UpsellIds         *[]int               `json:"upsell_ids,omitempty"`
-	Images            *Image               `json:"images,omitempty"`
+	Images            *[]Image             `json:"images,omitempty"`
 	Dimensions        *ProductDimensions   `json:"dimensions,omitempty"`
 	Downloads         *[]ProductDownloads  `json:"downloads,omitempty"`
 	Categories        *[]ProductCategory   `json:"categories,omitempty"`
