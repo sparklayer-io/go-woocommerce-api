@@ -2,6 +2,7 @@ package woocommerce
 
 import (
 	"net/http"
+	"strconv"
 )
 
 // Product service
@@ -69,14 +70,14 @@ type Product struct {
 	UpsellIds         *[]int               `json:"upsell_ids,omitempty"`
 	Images            *[]Image             `json:"images,omitempty"`
 	Dimensions        *ProductDimensions   `json:"dimensions,omitempty"`
-	Downloads         *[]ProductDownloads  `json:"downloads,omitempty"`
+	Downloads         *[]ProductDownload   `json:"downloads,omitempty"`
 	Categories        *[]ProductCategory   `json:"categories,omitempty"`
 	Tags              *[]ProductTag        `json:"tags,omitempty"`
 	Attributes        *[]ProductAttributes `json:"attributes,omitempty"`
 	DefaultAttributes *[]DefaultAttributes `json:"default_attributes,omitempty"`
 }
 
-type ProductDownloads struct {
+type ProductDownload struct {
 	Id   string `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 	File string `json:"file,omitempty"`
@@ -187,8 +188,8 @@ func (service *ProductsService) Create(product *Product) (*Product, *http.Respon
 }
 
 // Get a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#retrieve-a-product
-func (service *ProductsService) Get(productID string) (*Product, *http.Response, error) {
-	_url := "/products/" + productID
+func (service *ProductsService) Get(productID int) (*Product, *http.Response, error) {
+	_url := "/products/" + strconv.Itoa(productID)
 	req, _ := service.client.NewRequest("GET", _url, nil, nil)
 
 	product := new(Product)
@@ -217,8 +218,8 @@ func (service *ProductsService) List(opts *ListProductParams) ([]Product, *http.
 }
 
 // Update a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#update-a-product
-func (service *ProductsService) Update(productID string, product *Product) (*Product, *http.Response, error) {
-	_url := "/products/" + productID
+func (service *ProductsService) Update(productID int, product *Product) (*Product, *http.Response, error) {
+	_url := "/products/" + strconv.Itoa(productID)
 	req, _ := service.client.NewRequest("PUT", _url, nil, product)
 
 	updatedProduct := new(Product)
@@ -232,8 +233,8 @@ func (service *ProductsService) Update(productID string, product *Product) (*Pro
 }
 
 // Delete a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#delete-a-product
-func (service *ProductsService) Delete(productID string, opts *DeleteProductParams) (*Product, *http.Response, error) {
-	_url := "/products/" + productID
+func (service *ProductsService) Delete(productID int, opts *DeleteProductParams) (*Product, *http.Response, error) {
+	_url := "/products/" + strconv.Itoa(productID)
 	req, _ := service.client.NewRequest("DELETE", _url, opts, nil)
 
 	product := new(Product)

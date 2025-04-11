@@ -2,6 +2,7 @@ package woocommerce
 
 import (
 	"net/http"
+	"strconv"
 )
 
 type ProductVariantsService service
@@ -44,61 +45,45 @@ type ProductVariation struct {
 	MenuOrder         int                  `json:"menu_order,omitempty"`
 	Image             *Image               `json:"image,omitempty"`
 	Dimensions        *ProductDimensions   `json:"dimensions,omitempty"`
-	Downloads         *[]ProductDownloads  `json:"downloads,omitempty"`
+	Downloads         *[]ProductDownload   `json:"downloads,omitempty"`
 	Attributes        *[]ProductAttributes `json:"attributes,omitempty"`
 	MetaData          *[]MetaData          `json:"meta_data,omitempty"`
 }
 
 type DeleteProductVariantParams struct {
-	Force    string `json:"force,omitempty"`
-	Reassign int    `json:"reassign,omitempty"`
+	Force string `json:"force,omitempty"`
 }
 
 type BatchProductVariantUpdate struct {
-	Create *[]Product `json:"create,omitempty"`
-	Update *[]Product `json:"update,omitempty"`
-	Delete *[]int     `json:"delete,omitempty"`
+	Create *[]ProductVariation `json:"create,omitempty"`
+	Update *[]ProductVariation `json:"update,omitempty"`
+	Delete *[]int              `json:"delete,omitempty"`
 }
 
 type BatchProductVariantUpdateResponse struct {
-	Create *[]Product `json:"create,omitempty"`
-	Update *[]Product `json:"update,omitempty"`
-	Delete *[]Product `json:"delete,omitempty"`
-}
-
-type ProductDownload struct {
-	DownloadId         string `json:"download_id,omitempty"`
-	DownloadUrl        string `json:"download_url,omitempty"`
-	ProductId          int    `json:"product_id,omitempty"`
-	ProductName        string `json:"product_name,omitempty"`
-	DownloadName       string `json:"download_name,omitempty"`
-	OrderId            int    `json:"order_id,omitempty"`
-	OrderKey           string `json:"order_key,omitempty"`
-	DownloadsRemaining string `json:"downloads_remaining,omitempty"`
-	AccessExpires      string `json:"access_expires,omitempty"`
-	AccessExpiresGmt   string `json:"access_expires_gmt,omitempty"`
-	File               *File  `json:"file,omitempty"`
-	Links              *Links `json:"_links,omitempty"`
+	Create *[]ProductVariation `json:"create,omitempty"`
+	Update *[]ProductVariation `json:"update,omitempty"`
+	Delete *[]ProductVariation `json:"delete,omitempty"`
 }
 
 // Create a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#create-a-product
-func (service *ProductVariantsService) Create(product *Product) (*Product, *http.Response, error) {
-	_url := "/products"
-	req, _ := service.client.NewRequest("POST", _url, nil, product)
+func (service *ProductVariantsService) Create(productId int, variation *ProductVariation) (*ProductVariation, *http.Response, error) {
+	_url := "/products/" + strconv.Itoa(productId) + "/variations"
+	req, _ := service.client.NewRequest("POST", _url, nil, variation)
 
-	createdProduct := new(Product)
-	response, err := service.client.Do(req, createdProduct)
+	createdVariation := new(ProductVariation)
+	response, err := service.client.Do(req, createdVariation)
 
 	if err != nil {
 		return nil, response, err
 	}
 
-	return createdProduct, response, nil
+	return createdVariation, response, nil
 }
 
 // Get a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#retrieve-a-product
-func (service *ProductVariantsService) Get(productID string, variationID string) (*ProductVariation, *http.Response, error) {
-	_url := "/products/" + productID + "/variations/" + variationID
+func (service *ProductVariantsService) Get(productID int, variationID string) (*ProductVariation, *http.Response, error) {
+	_url := "/products/" + strconv.Itoa(productID) + "/variations/" + variationID
 	req, _ := service.client.NewRequest("GET", _url, nil, nil)
 
 	variation := new(ProductVariation)
@@ -111,13 +96,12 @@ func (service *ProductVariantsService) Get(productID string, variationID string)
 	return variation, response, nil
 }
 
-// Get a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#retrieve-a-product
-func (service *ProductVariantsService) GetAll(productID string) ([]ProductVariation, *http.Response, error) {
-	_url := "/products/" + productID + "/variations"
-	req, _ := service.client.NewRequest("GET", _url, nil, nil)
+// List products. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#list-all-products
+func (service *ProductVariantsService) List(productId int, opts *ListProductParams) (*[]ProductVariation, *http.Response, error) {
+	_url := "/products/" + strconv.Itoa(productId) + "/variations"
+	req, _ := service.client.NewRequest("GET", _url, opts, nil)
 
-	var variations []ProductVariation
-	//variations := new(Product)
+	variations := new([]ProductVariation)
 	response, err := service.client.Do(req, variations)
 
 	if err != nil {
@@ -127,25 +111,10 @@ func (service *ProductVariantsService) GetAll(productID string) ([]ProductVariat
 	return variations, response, nil
 }
 
-// List products. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#list-all-products
-func (service *ProductVariantsService) List(opts *ListProductParams) (*[]ProductVariation, *http.Response, error) {
-	_url := "/products"
-	req, _ := service.client.NewRequest("GET", _url, opts, nil)
-
-	products := new([]ProductVariation)
-	response, err := service.client.Do(req, products)
-
-	if err != nil {
-		return nil, response, err
-	}
-
-	return products, response, nil
-}
-
 // Update a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#update-a-product
-func (service *ProductVariantsService) Update(productID string, product *Product) (*ProductVariation, *http.Response, error) {
-	_url := "/products/" + productID
-	req, _ := service.client.NewRequest("PUT", _url, nil, product)
+func (service *ProductVariantsService) Update(productID int, variation *ProductVariation) (*ProductVariation, *http.Response, error) {
+	_url := "/products/" + strconv.Itoa(productID) + "/variations/" + strconv.Itoa(variation.Id)
+	req, _ := service.client.NewRequest("PUT", _url, nil, variation)
 
 	updatedVariant := new(ProductVariation)
 	response, err := service.client.Do(req, updatedVariant)
@@ -157,32 +126,32 @@ func (service *ProductVariantsService) Update(productID string, product *Product
 	return updatedVariant, response, nil
 }
 
-// Delete a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#delete-a-product
-func (service *ProductVariantsService) Delete(productID string, opts *DeleteProductParams) (*ProductVariation, *http.Response, error) {
-	_url := "/products/" + productID
+// Delete a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#delete-a-product-variation
+func (service *ProductVariantsService) Delete(productId int, variantId int, opts *DeleteProductParams) (*ProductVariation, *http.Response, error) {
+	_url := "/products/" + strconv.Itoa(productId) + "/variations/" + strconv.Itoa(variantId)
 	req, _ := service.client.NewRequest("DELETE", _url, opts, nil)
 
-	product := new(ProductVariation)
-	response, err := service.client.Do(req, product)
+	variation := new(ProductVariation)
+	response, err := service.client.Do(req, variation)
 
 	if err != nil {
 		return nil, response, err
 	}
 
-	return product, response, nil
+	return variation, response, nil
 }
 
 // Batch update products. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#batch-update-products
-func (service *ProductVariantsService) Batch(opts *BatchProductUpdate) (*BatchProductVariantUpdateResponse, *http.Response, error) {
-	_url := "/products/batch"
+func (service *ProductVariantsService) Batch(productId int, opts *BatchProductVariantUpdate) (*BatchProductVariantUpdateResponse, *http.Response, error) {
+	_url := "/products/" + strconv.Itoa(productId) + "/variations/batch"
 	req, _ := service.client.NewRequest("POST", _url, nil, opts)
 
-	products := new(BatchProductVariantUpdateResponse)
-	response, err := service.client.Do(req, products)
+	variants := new(BatchProductVariantUpdateResponse)
+	response, err := service.client.Do(req, variants)
 
 	if err != nil {
 		return nil, response, err
 	}
 
-	return products, response, nil
+	return variants, response, nil
 }
