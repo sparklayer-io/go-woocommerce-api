@@ -110,7 +110,7 @@ func (service *CustomersService) Get(customerID string) (*Customer, *http.Respon
 }
 
 // List customers. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#list-all-customers
-func (service *CustomersService) List(opts *ListCustomerParams) (*[]Customer, *http.Response, error) {
+func (service *CustomersService) List(opts *ListCustomerParams) ([]Customer, *http.Response, error) {
 	_url := "/customers"
 	req, _ := service.client.NewRequest("GET", _url, opts, nil)
 
@@ -121,7 +121,7 @@ func (service *CustomersService) List(opts *ListCustomerParams) (*[]Customer, *h
 		return nil, response, err
 	}
 
-	return customers, response, nil
+	return *customers, response, nil
 }
 
 // Update a customer. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#update-a-customer

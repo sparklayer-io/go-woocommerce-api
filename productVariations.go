@@ -50,6 +50,34 @@ type ProductVariation struct {
 	MetaData          *[]MetaData          `json:"meta_data,omitempty"`
 }
 
+type ListProductVariantParams struct {
+	Context       string `url:"context,omitempty"`
+	Page          int    `url:"page,omitempty"`
+	PerPage       int    `url:"per_page,omitempty"`
+	Search        string `url:"search,omitempty"`
+	After         string `url:"after,omitempty"`
+	Before        string `url:"before,omitempty"`
+	Exclude       *[]int `url:"exclude,omitempty"`
+	Include       *[]int `url:"include,omitempty"`
+	Offset        int    `url:"offset,omitempty"`
+	Order         string `url:"order,omitempty"`
+	OrderBy       string `url:"orderby,omitempty"`
+	Parent        *[]int `url:"parent,omitempty"`
+	ParentExclude *[]int `url:"parent_exclude,omitempty"`
+	Slug          string `url:"slug,omitempty"`
+	Status        string `url:"status,omitempty"`
+	IncludeStatus string `url:"include_status,omitempty"`
+	ExcludeStatus string `url:"exclude_status,omitempty"`
+	Sku           string `url:"sku,omitempty"`
+	TaxClass      string `url:"tax_class,omitempty"`
+	OnSale        bool   `url:"on_sale,omitempty"`
+	MinPrice      string `url:"min_price,omitempty"`
+	MaxPrice      string `url:"max_price,omitempty"`
+	StockStatus   string `url:"stock_status,omitempty"`
+	Virtual       bool   `url:"virtual,omitempty"`
+	Downloadable  bool   `url:"downloadable,omitempty"`
+}
+
 type DeleteProductVariantParams struct {
 	Force string `json:"force,omitempty"`
 }
@@ -97,7 +125,7 @@ func (service *ProductVariantsService) Get(productID int, variationID string) (*
 }
 
 // List products. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#list-all-products
-func (service *ProductVariantsService) List(productId int, opts *ListProductParams) (*[]ProductVariation, *http.Response, error) {
+func (service *ProductVariantsService) List(productId int, opts *ListProductParams) ([]ProductVariation, *http.Response, error) {
 	_url := "/products/" + strconv.Itoa(productId) + "/variations"
 	req, _ := service.client.NewRequest("GET", _url, opts, nil)
 
@@ -108,7 +136,7 @@ func (service *ProductVariantsService) List(productId int, opts *ListProductPara
 		return nil, response, err
 	}
 
-	return variations, response, nil
+	return *variations, response, nil
 }
 
 // Update a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#update-a-product
