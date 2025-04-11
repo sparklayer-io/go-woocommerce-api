@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-type ProductVariantsService service
+type ProductVariationService service
 
 // ProductVariation object. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#product-properties
 type ProductVariation struct {
@@ -50,7 +50,7 @@ type ProductVariation struct {
 	MetaData          *[]MetaData          `json:"meta_data,omitempty"`
 }
 
-type ListProductVariantParams struct {
+type ListProductVariationParams struct {
 	Context       string `url:"context,omitempty"`
 	Page          int    `url:"page,omitempty"`
 	PerPage       int    `url:"per_page,omitempty"`
@@ -78,24 +78,24 @@ type ListProductVariantParams struct {
 	Downloadable  bool   `url:"downloadable,omitempty"`
 }
 
-type DeleteProductVariantParams struct {
+type DeleteProductVariationParams struct {
 	Force string `json:"force,omitempty"`
 }
 
-type BatchProductVariantUpdate struct {
+type BatchProductVariationUpdate struct {
 	Create *[]ProductVariation `json:"create,omitempty"`
 	Update *[]ProductVariation `json:"update,omitempty"`
 	Delete *[]int              `json:"delete,omitempty"`
 }
 
-type BatchProductVariantUpdateResponse struct {
+type BatchProductVariationUpdateResponse struct {
 	Create *[]ProductVariation `json:"create,omitempty"`
 	Update *[]ProductVariation `json:"update,omitempty"`
 	Delete *[]ProductVariation `json:"delete,omitempty"`
 }
 
 // Create a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#create-a-product
-func (service *ProductVariantsService) Create(productId int, variation *ProductVariation) (*ProductVariation, *http.Response, error) {
+func (service *ProductVariationService) Create(productId int, variation *ProductVariation) (*ProductVariation, *http.Response, error) {
 	_url := "/products/" + strconv.Itoa(productId) + "/variations"
 	req, _ := service.client.NewRequest("POST", _url, nil, variation)
 
@@ -110,7 +110,7 @@ func (service *ProductVariantsService) Create(productId int, variation *ProductV
 }
 
 // Get a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#retrieve-a-product
-func (service *ProductVariantsService) Get(productID int, variationID string) (*ProductVariation, *http.Response, error) {
+func (service *ProductVariationService) Get(productID int, variationID string) (*ProductVariation, *http.Response, error) {
 	_url := "/products/" + strconv.Itoa(productID) + "/variations/" + variationID
 	req, _ := service.client.NewRequest("GET", _url, nil, nil)
 
@@ -125,7 +125,7 @@ func (service *ProductVariantsService) Get(productID int, variationID string) (*
 }
 
 // List products. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#list-all-products
-func (service *ProductVariantsService) List(productId int, opts *ListProductParams) ([]ProductVariation, *http.Response, error) {
+func (service *ProductVariationService) List(productId int, opts *ListProductVariationParams) ([]ProductVariation, *http.Response, error) {
 	_url := "/products/" + strconv.Itoa(productId) + "/variations"
 	req, _ := service.client.NewRequest("GET", _url, opts, nil)
 
@@ -140,7 +140,7 @@ func (service *ProductVariantsService) List(productId int, opts *ListProductPara
 }
 
 // Update a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#update-a-product
-func (service *ProductVariantsService) Update(productID int, variation *ProductVariation) (*ProductVariation, *http.Response, error) {
+func (service *ProductVariationService) Update(productID int, variation *ProductVariation) (*ProductVariation, *http.Response, error) {
 	_url := "/products/" + strconv.Itoa(productID) + "/variations/" + strconv.Itoa(variation.Id)
 	req, _ := service.client.NewRequest("PUT", _url, nil, variation)
 
@@ -155,7 +155,7 @@ func (service *ProductVariantsService) Update(productID int, variation *ProductV
 }
 
 // Delete a product. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#delete-a-product-variation
-func (service *ProductVariantsService) Delete(productId int, variantId int, opts *DeleteProductParams) (*ProductVariation, *http.Response, error) {
+func (service *ProductVariationService) Delete(productId int, variantId int, opts *DeleteProductParams) (*ProductVariation, *http.Response, error) {
 	_url := "/products/" + strconv.Itoa(productId) + "/variations/" + strconv.Itoa(variantId)
 	req, _ := service.client.NewRequest("DELETE", _url, opts, nil)
 
@@ -170,11 +170,11 @@ func (service *ProductVariantsService) Delete(productId int, variantId int, opts
 }
 
 // Batch update products. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#batch-update-products
-func (service *ProductVariantsService) Batch(productId int, opts *BatchProductVariantUpdate) (*BatchProductVariantUpdateResponse, *http.Response, error) {
+func (service *ProductVariationService) Batch(productId int, opts *BatchProductVariationUpdate) (*BatchProductVariationUpdateResponse, *http.Response, error) {
 	_url := "/products/" + strconv.Itoa(productId) + "/variations/batch"
 	req, _ := service.client.NewRequest("POST", _url, nil, opts)
 
-	variants := new(BatchProductVariantUpdateResponse)
+	variants := new(BatchProductVariationUpdateResponse)
 	response, err := service.client.Do(req, variants)
 
 	if err != nil {

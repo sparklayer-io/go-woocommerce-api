@@ -51,7 +51,7 @@ type Client struct {
 	Refunds           *RefundsService
 	Products          *ProductsService
 	ProductTags       *ProductTagService
-	ProductVariations *ProductVariantsService
+	ProductVariations *ProductVariationService
 	Webhooks          *WebhookService
 }
 
@@ -107,7 +107,7 @@ func New(shopURL string) (*Client, error) {
 	client.Refunds = &RefundsService{client: client}
 	client.Products = &ProductsService{client: client}
 	client.ProductTags = &ProductTagService{client: client}
-	client.ProductVariations = &ProductVariantsService{client: client}
+	client.ProductVariations = &ProductVariationService{client: client}
 	client.Webhooks = &WebhookService{client: client}
 
 	return client, nil
