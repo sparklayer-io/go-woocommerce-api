@@ -33,7 +33,7 @@ type ProductVariation struct {
 	DownloadExpiry    int                  `json:"download_expiry,omitempty"`
 	TaxStatus         string               `json:"tax_status,omitempty"`
 	TaxClass          string               `json:"tax_class,omitempty"`
-	ManageStock       bool                 `json:"manage_stock,omitempty"`
+	ManageStock       string               `json:"manage_stock,omitempty"`
 	StockQuantity     int                  `json:"stock_quantity,omitempty"`
 	StockStatus       string               `json:"stock_status,omitempty"`
 	Backorders        string               `json:"backorders,omitempty"`
@@ -41,7 +41,7 @@ type ProductVariation struct {
 	Backordered       bool                 `json:"backordered,omitempty"`
 	Weight            string               `json:"weight,omitempty"`
 	ShippingClass     string               `json:"shipping_class,omitempty"`
-	ShippingClassId   string               `json:"shipping_class_id,omitempty"`
+	ShippingClassId   int                  `json:"shipping_class_id,omitempty"`
 	MenuOrder         int                  `json:"menu_order,omitempty"`
 	Image             *Image               `json:"image,omitempty"`
 	Dimensions        *ProductDimensions   `json:"dimensions,omitempty"`
