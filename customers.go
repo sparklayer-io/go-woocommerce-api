@@ -2,6 +2,7 @@ package woocommerce
 
 import (
 	"net/http"
+	"strconv"
 )
 
 // Customer service
@@ -95,8 +96,8 @@ func (service *CustomersService) Create(customer *Customer) (*Customer, *http.Re
 }
 
 // Get a customer. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#retrieve-a-customer
-func (service *CustomersService) Get(customerID string) (*Customer, *http.Response, error) {
-	_url := "/customers/" + customerID
+func (service *CustomersService) Get(customerId int) (*Customer, *http.Response, error) {
+	_url := "/customers/" + strconv.Itoa(customerId)
 	req, _ := service.client.NewRequest("GET", _url, nil, nil)
 
 	customer := new(Customer)
@@ -125,8 +126,8 @@ func (service *CustomersService) List(opts *ListCustomerParams) ([]Customer, *ht
 }
 
 // Update a customer. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#update-a-customer
-func (service *CustomersService) Update(customerID string, customer *Customer) (*Customer, *http.Response, error) {
-	_url := "/customers/" + customerID
+func (service *CustomersService) Update(customerId int, customer *Customer) (*Customer, *http.Response, error) {
+	_url := "/customers/" + strconv.Itoa(customerId)
 	req, _ := service.client.NewRequest("PUT", _url, nil, customer)
 
 	updatedCustomer := new(Customer)
@@ -140,8 +141,8 @@ func (service *CustomersService) Update(customerID string, customer *Customer) (
 }
 
 // Delete a customer. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#delete-a-customer
-func (service *CustomersService) Delete(customerID string, opts *DeleteCustomerParams) (*Customer, *http.Response, error) {
-	_url := "/customers/" + customerID
+func (service *CustomersService) Delete(customerId int, opts *DeleteCustomerParams) (*Customer, *http.Response, error) {
+	_url := "/customers/" + strconv.Itoa(customerId)
 	req, _ := service.client.NewRequest("DELETE", _url, opts, nil)
 
 	customer := new(Customer)
@@ -170,8 +171,8 @@ func (service *CustomersService) Batch(opts *BatchCustomerUpdate) (*BatchCustome
 }
 
 // Get customer downloads. Reference: https://woocommerce.github.io/woocommerce-rest-api-docs/#retrieve-customer-downloads
-func (service *CustomersService) GetDownloads(customerID string) (*[]CustomerDownload, *http.Response, error) {
-	_url := "/customers/" + customerID + "/downloads"
+func (service *CustomersService) GetDownloads(customerId int) (*[]CustomerDownload, *http.Response, error) {
+	_url := "/customers/" + strconv.Itoa(customerId) + "/downloads"
 	req, _ := service.client.NewRequest("GET", _url, nil, nil)
 
 	downloads := new([]CustomerDownload)
